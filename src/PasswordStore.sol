@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.18;
+pragma solidity 0.8.18; // q is this the latest version?
 
 /*
  * @author not-so-secure-dev
@@ -10,10 +10,16 @@ pragma solidity 0.8.18;
 contract PasswordStore {
     error PasswordStore__NotOwner();
 
+    /**
+     * @dev State Variables
+     */
     address private s_owner;
     string private s_password;
 
-    event SetNewPassword();
+    /**
+     * @dev Events
+     */
+    event SetNetPassword();
 
     constructor() {
         s_owner = msg.sender;
@@ -23,9 +29,13 @@ contract PasswordStore {
      * @notice This function allows only the owner to set a new password.
      * @param newPassword The new password to set.
      */
+
+    // q can anyone and not owner set the passord?
+    // @audit-high anyone can set a password
+    // missing access control
     function setPassword(string memory newPassword) external {
         s_password = newPassword;
-        emit SetNewPassword();
+        emit SetNetPassword();
     }
 
     /*
