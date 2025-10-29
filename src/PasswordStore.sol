@@ -13,8 +13,10 @@ contract PasswordStore {
     /**
      * @dev State Variables
      */
-    address private s_owner;
-    string private s_password;
+    address private s_owner; // 0
+    //@audit This variable is not private, it can be accessed by anyone. This is not a safe place to store a password.
+    // blockchain explorers can see this variable
+    string private s_password; // 1
 
     /**
      * @dev Events
@@ -40,8 +42,10 @@ contract PasswordStore {
 
     /*
      * @notice This allows only the owner to retrieve the password.
+     * @ audit there is no param newPassword that has been set
      * @param newPassword The new password to set.
      */
+    
     function getPassword() external view returns (string memory) {
         if (msg.sender != s_owner) {
             revert PasswordStore__NotOwner();
